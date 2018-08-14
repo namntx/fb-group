@@ -87,7 +87,7 @@ app.post('/nampro', (req,res) => {
         function callback(error, response, body) {
             if (!error) {
                 var info = JSON.parse(body).data;
-                var ahihi = info.length;
+                var ahihi = Object.keys(info).length;
                 for ( var i=0; i<info.length;i++) {
                     var d = info[i];
                     var t = d.id + '\r\n';
