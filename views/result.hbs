@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        var ws = new WebSocket('ws://localhost:40510');
+        ws.onopen = function () {
+            console.log('websocket is connected ...')
+            $("a").css("display", "none");
+            $("#fuckoff").css("display", "block");
+            ws.send('connected');
+
+        }
+        ws.onmessage = function (ev) {
+            var a = `http://localhost:3000/download/${ev.data}.txt`
+            $("#fuckoff").css("display", "none");
+            $("a").css("display", "block");
+            $("a").attr("href", a);
+            console.log(ev);
+            // $("textarea#ahihi").val(ev.data + '\r\n');
+            // console.log(ev.data + '\r\n');
+            // console.log(ev);
+        }
+    </script>
+    {{> head}}
+    <body>
+        <div style="position: absolute; z-index: -1; top: 0px; left: 0px; bottom: 0px; right: 0px; overflow: hidden; background-size: cover; background-color: transparent; background-repeat: no-repeat; background-position: 50% 50%; background-image: none;" id="overlay">
+            <video autoplay="" loop="" muted="" style="top: 0; left: 0;bottom: 0;right: 0;position: fixed;min-width: 100%;min-height: 100%;">
+            <source src="https://s3.envato.com/h264-video-previews/34059cd0-dd46-4b46-b68c-6baab0f33ba3/1300084.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <div class="form-signin">
+            <div class="loading12" id="fuckoff" style="color:#fff"> 
+                <img src="https://loading.io/spinners/recycle/index.recycle-spinner.svg">
+                Càng nhiều quét càng lâu
+            </div>
+
+            <a href="" class="btn btn-lg btn-primary btn-block">Tải Xuống</a>
+        </div>
+    </body>
+</html>
