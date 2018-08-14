@@ -8,7 +8,7 @@ const path = require('path');
 var randomstring = require("randomstring");
 var app = express();
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 80;
 
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: false }))
