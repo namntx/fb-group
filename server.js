@@ -118,6 +118,7 @@ app.post('/nampro', (req,res) => {
                             } else {
                                  
                                 ws.send(randne);
+                                ws.close();
                             }
                         });
                     } 
