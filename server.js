@@ -50,37 +50,11 @@ app.post('/nampro', (req,res) => {
     // });
 
     wss.on('connection', function (ws) {
-        if (this.readyState !== WebSocket.OPEN) { 
-                                   if (cb) cb(new Error('not opened')); 
-                                   else throw new Error('not opened'); 
-                                   return; 
-                                 }
+
         ws.on('message', function (message) {
             console.log('received: %s', message)
         })
-        ws.isAlive = true
-        ws.on('pong', heartbeat)
-      
-        ws.on('error', () => {
-          console.log('errr')
-        })
-        
-        function heartbeat () {
-            this.isAlive = true
-        }
-          
-        function noop () {}
-          
-        setInterval(function ping () {
-            wss.clients.forEach(function each (ws) {
-                if (ws.isAlive === false) {
-                    return ws.terminate()
-                }
-                ws.isAlive = false
-                ws.ping(noop)
-            })
-        }, 5000)
-
+       
         var options = {
             uri: `https://graph.facebook.com/${idg}/members?fields=id&limit=5000&access_token=${token}`,
             method: 'GET',
