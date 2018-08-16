@@ -50,6 +50,11 @@ app.post('/nampro', (req,res) => {
     // });
 
     wss.on('connection', function (ws) {
+        if (this.readyState !== WebSocket.OPEN) { 
+                                   if (cb) cb(new Error('not opened')); 
+                                   else throw new Error('not opened'); 
+                                   return; 
+                                 }
         ws.on('message', function (message) {
             console.log('received: %s', message)
         })
@@ -115,6 +120,7 @@ app.post('/nampro', (req,res) => {
                             if (err) {
                                 console.log(err);
                             } else {
+                                 
                                 ws.send(randne);
                             }
                         });
