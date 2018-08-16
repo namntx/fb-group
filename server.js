@@ -87,7 +87,7 @@ app.post('/nampro', (req,res) => {
             if (!error) {
                 var info = JSON.parse(body).data;
                 if (info != "undefined" || info !="null") {var ahihi = Object.keys(info).length;}
-                else{console.log("error"}
+                else{console.log("error")}
                 
                 for ( var i=0; i<info.length;i++) {
                     var d = info[i];
