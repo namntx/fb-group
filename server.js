@@ -19,6 +19,26 @@ const randne = randomstring.generate();
 
 wss = new WebSocketServer({port: 40510});
 
+function noop() {}
+
+function heartbeat() {
+  this.isAlive = true;
+}
+
+wss.on('connection', function connection(ws) {
+  ws.isAlive = true;
+  ws.on('pong', heartbeat);
+});
+
+const interval = setInterval(function ping() {
+  wss.clients.forEach(function each(ws) {
+    if (ws.isAlive === false) return ws.terminate();
+
+    ws.isAlive = false;
+    ws.ping(noop);
+  });
+}, 30000);
+
 app.use((req, res, next) => {
     req.wss = wss
     next()
