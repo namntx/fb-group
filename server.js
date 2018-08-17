@@ -8,7 +8,7 @@ const path = require('path');
 var randomstring = require("randomstring");
 var app = express();
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 80;
 
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -18,6 +18,26 @@ hbs.registerPartials(__dirname + '/views/partials');
 const randne = randomstring.generate();
 
 wss = new WebSocketServer({port: 40510});
+
+function noop() {}
+
+function heartbeat() {
+  this.isAlive = true;
+}
+
+wss.on('connection', function connection(ws) {
+  ws.isAlive = true;
+  ws.on('pong', heartbeat);
+});
+
+const interval = setInterval(function ping() {
+  wss.clients.forEach(function each(ws) {
+    if (ws.isAlive === false) return ws.terminate();
+
+    ws.isAlive = false;
+    ws.ping(noop);
+  });
+}, 30000);
 
 app.use((req, res, next) => {
     req.wss = wss
@@ -50,32 +70,11 @@ app.post('/nampro', (req,res) => {
     // });
 
     wss.on('connection', function (ws) {
+
         ws.on('message', function (message) {
             console.log('received: %s', message)
         })
-        ws.isAlive = true
-        ws.on('pong', heartbeat)
-      
-        ws.on('error', () => {
-          console.log('errr')
-        })
-        
-        function heartbeat () {
-            this.isAlive = true
-        }
-          
-        function noop () {}
-          
-        setInterval(function ping () {
-            wss.clients.forEach(function each (ws) {
-                if (ws.isAlive === false) {
-                    return ws.terminate()
-                }
-                ws.isAlive = false
-                ws.ping(noop)
-            })
-        }, 5000)
-
+       
         var options = {
             uri: `https://graph.facebook.com/${idg}/members?fields=id&limit=5000&access_token=${token}`,
             method: 'GET',
@@ -87,7 +86,9 @@ app.post('/nampro', (req,res) => {
         function callback(error, response, body) {
             if (!error) {
                 var info = JSON.parse(body).data;
-                var ahihi = info.length;
+                if (info != "undefined" || info !="null") {var ahihi = Object.keys(info).length;}
+                else{console.log("error")}
+                
                 for ( var i=0; i<info.length;i++) {
                     var d = info[i];
                     var t = d.id + '\r\n';
@@ -115,7 +116,9 @@ app.post('/nampro', (req,res) => {
                             if (err) {
                                 console.log(err);
                             } else {
+                                 
                                 ws.send(randne);
+                                ws.close();
                             }
                         });
                     } 
