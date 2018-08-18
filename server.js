@@ -22,8 +22,14 @@ const sessionParser = session({
     secret: '$eCuRiTy',
     resave: false
 });
+
+app.use((req, res, next) => {
+    req.wss = wss
+    next()
+})
+
 app.use(sessionParser);
-//wss = new WebSocketServer({port: 40510});
+
 app.enable('trust proxy')
 
 app.get("/", (req,res) => {
@@ -31,7 +37,6 @@ app.get("/", (req,res) => {
     const id = uuid.v4();
     console.log(`Updating session for user ${id}`);
     req.session.userId = id;
-    //res.send({ result: 'OK', message: 'Session updated' });
 })
 
 const wss = new WebSocketServer({
@@ -46,11 +51,21 @@ const wss = new WebSocketServer({
     app
 });
 
+function noop() {}
+
+function heartbeat() {
+   this.isAlive = true;
+}
+
 wss.on('connection', (ws, req) => {
-    //ws.send(req.session.userId)
+    ws.isAlive = true     
+    ws.on('pong', heartbeat)
     ws.on('message', (message) => {
         ws.userId = req.session.userId;
     });
+    ws.on('error', () => {
+        console.log('error webcoket')
+    })
 });
 
 app.post('/nampro', (req,res) => {
@@ -100,7 +115,14 @@ app.post('/nampro', (req,res) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            req.wss.    
+                            req.wss.clients.forEach(client => {
+                                if (client.userId === ahihia) {
+                                  client.send(ahihia)
+                                }else{
+                                    client.send("Lỗi gửi data")
+                                }
+                            })
+                            req.session.destroy();
                         }
                     });
                 } 
@@ -116,35 +138,6 @@ app.post('/nampro', (req,res) => {
 })
 
 
-
-
-
-
-// function noop() {}
-
-// function heartbeat() {
-//   this.isAlive = true;
-// }
-// wss.on('connection', function (ws) {
-
-//     ws.send(JSON.stringify({
-//         type: 'initialization',
-//         id: token
-//     }))
-
-
-//     ws.isAlive = true
-//     ws.on('pong', heartbeat)
-
-//     ws.on('message', (message) => {
-//         console.log("ahih", message)
-//     })
-    
-//     ws.on('error', () => {
-//         console.log('error webcoket')
-//     })
-// });
-
 app.get("/download/:file(*)", (req,res) => {
     var file = req.params.file;
     var fileLocation = path.join(__dirname + '/public/',file);
@@ -154,7 +147,7 @@ app.get("/download/:file(*)", (req,res) => {
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');
-  });
+});
 
 
 
