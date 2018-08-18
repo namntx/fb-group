@@ -118,8 +118,6 @@ app.post('/nampro', (req,res) => {
                             req.wss.clients.forEach(client => {
                                 if (client.userId === ahihia) {
                                   client.send(ahihia)
-                                }else{
-                                    client.send("Lỗi gửi data")
                                 }
                             })
                             //req.session.destroy();
