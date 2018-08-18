@@ -6,17 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>GET ID</title>
     {{> head}}
-  <script>
-        var ws = new WebSocket('ws://35.198.227.165:40510');
-        ws.onopen = function () {
-        console.log('websocket is connected ...')
-            ws.send('connected')
-        }
-        ws.onmessage = function (ev) {
-            console.log(ev.data);
-        }
-    </script>
-
 <body>
     <div style="position: absolute; z-index: -1; top: 0px; left: 0px; bottom: 0px; right: 0px; overflow: hidden; background-size: cover; background-color: transparent; background-repeat: no-repeat; background-position: 50% 50%; background-image: none;" id="overlay">
     <video autoplay="" loop="" muted="" style="top: 0; left: 0;bottom: 0;right: 0;position: fixed;min-width: 100%;min-height: 100%;">
