@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
-        var ws = new WebSocket('ws://localhost:40510');
+        var ws = new WebSocket('ws://35.198.227.165:40510');
         ws.onopen = function () {
             console.log('websocket is connected ...')
             $("a").css("display", "none");
@@ -20,9 +20,6 @@
             $("a").css("display", "block");
             $("a").attr("href", a);
             console.log(ev);
-            // $("textarea#ahihi").val(ev.data + '\r\n');
-            // console.log(ev.data + '\r\n');
-            // console.log(ev);
         }
     </script>
     {{> head}}

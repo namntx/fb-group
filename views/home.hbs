@@ -7,43 +7,22 @@
   <title>GET ID</title>
     {{> head}}
   <script>
-        var ws = new WebSocket('ws://localhost:40510');
+        var ws = new WebSocket('ws://35.198.227.165:40510');
         ws.onopen = function () {
         console.log('websocket is connected ...')
             ws.send('connected')
         }
         ws.onmessage = function (ev) {
             console.log(ev.data);
-            var a = ev.data;
-            //$('#ahihdddi').attr('action', `/namepro/${a}`);
         }
-
-
-        //ws.onopen = function () {
-            //console.log('websocket is connected ...')
-            //$("a").css("display", "none");
-            //$("#fuckoff").css("display", "block");
-            //ws.send('connected');
-
-        //}
-        //ws.onmessage = function (ev) {
-            //var a = `http://35.198.227.165/download/${ev.data}.txt`
-           // $("#fuckoff").css("display", "none");
-            //$("a").css("display", "block");
-            //$("a").attr("href", a);
-            //console.log(ev);
-            // $("textarea#ahihi").val(ev.data + '\r\n');
-            // console.log(ev.data + '\r\n');
-            // console.log(ev);
-        //}
     </script>
 
 <body>
-    {{!-- <div style="position: absolute; z-index: -1; top: 0px; left: 0px; bottom: 0px; right: 0px; overflow: hidden; background-size: cover; background-color: transparent; background-repeat: no-repeat; background-position: 50% 50%; background-image: none;" id="overlay">
+    <div style="position: absolute; z-index: -1; top: 0px; left: 0px; bottom: 0px; right: 0px; overflow: hidden; background-size: cover; background-color: transparent; background-repeat: no-repeat; background-position: 50% 50%; background-image: none;" id="overlay">
     <video autoplay="" loop="" muted="" style="top: 0; left: 0;bottom: 0;right: 0;position: fixed;min-width: 100%;min-height: 100%;">
     <source src="https://s3.envato.com/h264-video-previews/34059cd0-dd46-4b46-b68c-6baab0f33ba3/1300084.mp4" type="video/mp4">
     </video>
-    </div> --}}
+    </div>
     <form class="form-signin" method="post" action="/nampro" id="ahihdddi">
         <h1 class="h3 mb-3 font-weight-normal">LẤY UID THÀNH VIÊN NHÓM</h1>
         <label class="sr-only">LẤY UID THÀNH VIÊN NHÓM</label>
