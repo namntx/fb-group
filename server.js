@@ -122,7 +122,7 @@ app.post('/nampro', (req,res) => {
                                     client.send("Lỗi gửi data")
                                 }
                             })
-                            req.session.destroy();
+                            //req.session.destroy();
                         }
                     });
                 } 
