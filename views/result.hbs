@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
-        var ws = new WebSocket('ws://35.198.227.165:40510');
+        var ws = new WebSocket('ws://getnhomm.herokuapp.com:40510');
         ws.onopen = function () {
             console.log('websocket is connected ...')
             $("a").css("display", "none");
@@ -15,7 +15,7 @@
 
         }
         ws.onmessage = function (ev) {
-            var a = `http://35.198.227.165/download/${ev.data}.txt`
+            var a = `https://getnhomm.herokuapp.com/download/${ev.data}.txt`
             $("#fuckoff").css("display", "none");
             $("a").css("display", "block");
             $("a").attr("href", a);
