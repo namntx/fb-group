@@ -6,7 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
-        var ws = new WebSocket('ws://getnhomm.herokuapp.com:40510');
+        var HOST = location.origin.replace(/^http/, 'ws')
+        var ws = new WebSocket(HOST);
+        
         ws.onopen = function () {
             console.log('websocket is connected ...')
             $("a").css("display", "none");
