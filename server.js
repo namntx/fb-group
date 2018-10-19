@@ -7,10 +7,14 @@ var request = require('request');
 const path = require('path');
 const uuid = require('uuid');
 const session = require('express-session');
+var http = require("http");
 
 
 var app = express();
 const PORT = process.env.PORT || 80;
+
+var server = http.createServer(app)
+server.listen(PORT)
 
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -40,15 +44,14 @@ app.get("/", (req,res) => {
 })
 
 const wss = new WebSocketServer({
-    port: 40510,
+    server: server,
     verifyClient: (info, done) => {
       console.log('Parsing session from request...');
       sessionParser(info.req, {}, () => {
         console.log('Session is parsed!');
         done(info.req.session.userId);
       });
-    },
-    app
+    }
 });
 
 function noop() {}
@@ -142,10 +145,10 @@ app.get("/download/:file(*)", (req,res) => {
     res.download(fileLocation, file);
 })
 
-app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
-    console.log('Press Ctrl+C to quit.');
-});
+// app.listen(PORT, () => {
+//     console.log(`App listening on port ${PORT}`);
+//     console.log('Press Ctrl+C to quit.');
+// });
 
 
 
