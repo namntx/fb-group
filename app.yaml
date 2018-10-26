@@ -1,0 +1,9 @@
+version: mark21
+runtime: custom
+vm: true
+api_version: 1
+
+network:
+  forwarded_ports:
+  - 45015
+  instance_tag: websocket
